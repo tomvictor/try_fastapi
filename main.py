@@ -1,29 +1,31 @@
+from enum import Enum
+
 from fastapi import FastAPI
-import asyncio
+
 app = FastAPI()
 
 
-
-async def func1():
-    print("func1 start")
-    await asyncio.sleep(7)
-    print("func1 end")
-
-async def func2():
-    print("func2 start")
-    await asyncio.sleep(7)
-    print("func2 end")
+@app.get("/users/me")
+async def read_user_me():
+    return {"user_id": "the current user"}
 
 
+@app.get("/users/{user_id}")
+async def read_user(user_id: str):
+    return {"user_id": user_id}
 
 
-@app.get("/")
-async def root():
-    """Home API
+class ModelName(str, Enum):
+    alexnet = "alexnet"
+    resnet = "resnet"
+    lenet = "lenet"
 
-    Returns:
+@app.get("/models/{model_name}")
+async def get_model(model_name: ModelName):
+    if model_name == ModelName.alexnet:
+        return {"model_name": model_name, "message": "Deep Learning FTW!"}
 
-    """
-    await asyncio.gather(func1(), func2())
-    resp = {"id": 1, "name": "test"}
-    return resp
+    if model_name.value == "lenet":
+        return {"model_name": model_name, "message": "LeCNN all the images"}
+
+    return {"model_name": model_name, "message": "Have some residuals"}
