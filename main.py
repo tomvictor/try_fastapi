@@ -1,6 +1,7 @@
 from enum import Enum
 
 from fastapi import FastAPI
+from typing import Optional
 
 app = FastAPI()
 
@@ -15,10 +16,13 @@ async def read_user(user_id: str):
     return {"user_id": user_id}
 
 
+#Enumberations
+
 class ModelName(str, Enum):
     alexnet = "alexnet"
     resnet = "resnet"
     lenet = "lenet"
+
 
 @app.get("/models/{model_name}")
 async def get_model(model_name: ModelName):
@@ -29,3 +33,50 @@ async def get_model(model_name: ModelName):
         return {"model_name": model_name, "message": "LeCNN all the images"}
 
     return {"model_name": model_name, "message": "Have some residuals"}
+
+
+fake_items_db = [{"item_name": "Foo"}, {"item_name": "Bar"}, {"item_name": "Baz"}]
+
+#Query params
+
+@app.get("/items/")
+async def read_item(skip: int = 0, limit: int = 10):
+    return fake_items_db[skip : skip + limit]
+
+#Optional query params
+
+@app.get("/items/optional/{item_id}")
+async def read_optional_item(
+    item_id: str, q: Optional[str] = None, short: bool = False
+):
+    item = {"item_id": item_id}
+    if q:
+        item.update({"q": q})
+    if not short:
+        item.update(
+            {"description": "This is an amazing item that has a long description"}
+        )
+    return item
+
+# Multi path params
+
+@app.get("/users/{user_id}/items/{item_id}")
+async def read_user_item(
+    user_id: int, item_id: str, q: Optional[str] = None, short: bool = False
+):
+    item = {"item_id": item_id, "owner_id": user_id}
+    if q:
+        item.update({"q": q})
+    if not short:
+        item.update(
+            {"description": "This is an amazing item that has a long description"}
+        )
+    return item
+
+
+# Required query parameters
+
+@app.get("/items/required/{item_id}")
+async def read_required_user_item(item_id: str, needy: str):
+    item = {"item_id": item_id, "needy": needy}
+    return item
