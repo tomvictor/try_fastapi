@@ -8,7 +8,15 @@ app = FastAPI()
 
 @app.get("/users/me")
 async def read_user_me():
-    return {"user_id": "the current user"}
+    """API for user
+
+    Notes:
+        Example API
+    Returns:
+
+    """
+    return {"user_id": "the current user test"}
+
 
 
 @app.get("/users/{user_id}")
@@ -21,7 +29,7 @@ async def read_user(user_id: str):
 class ModelName(str, Enum):
     alexnet = "alexnet"
     resnet = "resnet"
-    lenet = "lenet"
+    lenet = "alex"
 
 
 @app.get("/models/{model_name}")
@@ -29,7 +37,7 @@ async def get_model(model_name: ModelName):
     if model_name == ModelName.alexnet:
         return {"model_name": model_name, "message": "Deep Learning FTW!"}
 
-    if model_name.value == "lenet":
+    if model_name.value == "alex":
         return {"model_name": model_name, "message": "LeCNN all the images"}
 
     return {"model_name": model_name, "message": "Have some residuals"}
@@ -59,6 +67,9 @@ async def read_optional_item(
     return item
 
 # Multi path params
+
+
+# example.com/users/1/items/1
 
 @app.get("/users/{user_id}/items/{item_id}")
 async def read_user_item(
