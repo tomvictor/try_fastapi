@@ -2,6 +2,7 @@ from enum import Enum
 
 from fastapi import FastAPI
 from typing import Optional
+from pydantic import BaseModel
 
 app = FastAPI()
 
@@ -91,3 +92,20 @@ async def read_user_item(
 async def read_required_user_item(item_id: str, needy: str):
     item = {"item_id": item_id, "needy": needy}
     return item
+
+
+class Item(BaseModel):
+    name: str
+    description: Optional[str] = None
+    price: float
+    tax: Optional[float] = None
+
+@app.post("/model-item/")
+async def create_item(item: Item):
+    item_dict = item.dict()
+    print(item_dict)
+    if item.tax:
+        price_with_tax = item.price + item.tax
+        item_dict.update({"price_with_tax": price_with_tax})
+    return item_dict
+
