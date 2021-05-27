@@ -1,8 +1,11 @@
 from enum import Enum
 
-from fastapi import FastAPI
+from fastapi import FastAPI, WebSocket
 from typing import Optional
 from pydantic import BaseModel
+from fastapi.responses import HTMLResponse
+
+from data import html
 
 app = FastAPI()
 
@@ -109,3 +112,16 @@ async def create_item(item: Item):
         item_dict.update({"price_with_tax": price_with_tax})
     return item_dict
 
+
+
+@app.get("/chat")
+async def get():
+    return HTMLResponse(html)
+
+
+@app.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    while True:
+        data = await websocket.receive_text()
+        await websocket.send_text(f"Message text was: {data}")
