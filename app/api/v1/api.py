@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from .endpoints import items
+from .endpoints import heroes
 
 api_router = APIRouter()
-api_router.include_router(items.router, tags=["hello"])
+api_router.include_router(heroes.router, tags=["hero"])
