@@ -5,4 +5,4 @@ router = APIRouter()
 
 @router.get("/")
 def read_root():
-    return {"Hello": "World"}
+    return {"title": "hello", "description": "world"}
