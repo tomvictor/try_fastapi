@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session
 
-from app.api.deps import get_db
-from app.models.hero import HeroRead, HeroCreate, Hero, HeroUpdate
 from app import crud
+from app.api.deps import get_db
+from app.models.hero import HeroCreate, HeroRead, HeroUpdate
 
 router = APIRouter()
 

@@ -1,5 +1,6 @@
-from pydantic import BaseSettings
 import secrets
+
+from pydantic import BaseSettings
 
 
 class Settings(BaseSettings):
