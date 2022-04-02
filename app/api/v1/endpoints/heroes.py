@@ -3,6 +3,7 @@ from sqlmodel import Session
 
 from api.deps import get_db
 from models.hero import HeroRead, HeroCreate, Hero
+import crud
 
 router = APIRouter()
 
@@ -14,8 +15,5 @@ def read_root():
 
 @router.post("/heroes/", response_model=HeroRead)
 def create_hero(*, session: Session = Depends(get_db), hero: HeroCreate):
-    db_hero = Hero.from_orm(hero)
-    session.add(db_hero)
-    session.commit()
-    session.refresh(db_hero)
-    return db_hero
+    resp = crud.hero.create(session, hero)
+    return resp
