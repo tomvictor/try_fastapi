@@ -2,4 +2,4 @@
 # imported by Alembic
 # from app.db.base_class import Base  # noqa
 from sqlmodel import SQLModel
-from app.models.hero import Hero  # noqa
+from models.hero import Hero  # noqa
