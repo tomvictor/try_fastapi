@@ -1,17 +1,17 @@
 """create hero model
 
-Revision ID: 5aa2b16da3db
+Revision ID: 913277cff5ab
 Revises: 
-Create Date: 2022-04-02 16:16:08.741245
+Create Date: 2022-04-02 16:32:01.535979
 
 """
-import sqlmodel
 from alembic import op
 import sqlalchemy as sa
+import sqlmodel
 
 
 # revision identifiers, used by Alembic.
-revision = '5aa2b16da3db'
+revision = '913277cff5ab'
 down_revision = None
 branch_labels = None
 depends_on = None
